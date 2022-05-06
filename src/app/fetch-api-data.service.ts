@@ -6,10 +6,12 @@ import { map } from 'rxjs';
 
 //Declaring the api url that will provide data for the client app
 const apiUrl = 'https://yourfavoritereels.herokuapp.com/';
+const token = localStorage.getItem('token');
+const Username = localStorage.getItem('user');
 @Injectable({
   providedIn: 'root'
 })
-export class UserRegistrationService {
+export class FetchApiDataService {
   //Inject the HttpClient module to the constructor or params
   //This will provide HttpClient to the entir class
   //making it available via this.http
@@ -17,9 +19,9 @@ export class UserRegistrationService {
   constructor(private http: HttpClient) {
 
   } //Making the api call for the user registration endpoint
-  public userRegistration(userDetails: any): Observable<any> {
+  userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
-    return this.http.post(apiUrl + 'users', userDetails).pipe(
+    return this.http.post(apiUrl + 'users/', userDetails).pipe(
       catchError(this.handleError)
     );
   }
@@ -95,7 +97,8 @@ export class UserRegistrationService {
   //Get user
   getUser(): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'users', {
+    const Username = localStorage.getItem('Username');
+    return this.http.get(apiUrl + `users/${Username}`, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -110,7 +113,8 @@ export class UserRegistrationService {
   //Get favorite movies for user
   getFavMovies(): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.get(apiUrl + 'users/:Username/Movies', {
+    const Username = localStorage.getItem('Username');
+    return this.http.get(apiUrl + `users/${Username}`, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -125,7 +129,8 @@ export class UserRegistrationService {
   //Add a movie to favorite movies
   addFavMovies(): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + 'users/:Username/Movies/:MovieID', {
+    const Username = localStorage.getItem('Username');
+    return this.http.post(apiUrl + `users/${Username}/movies/:MovieID`, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -138,9 +143,10 @@ export class UserRegistrationService {
   }
 
   //Edit user
-  editUser(): Observable<any> {
+  editUser(userData: object): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.put(apiUrl + 'users', {
+    const Username = localStorage.getItem('Username');
+    return this.http.put(apiUrl + `users/${Username}`, userData, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -155,7 +161,8 @@ export class UserRegistrationService {
   //Delete user
   deleteUser(): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.delete(apiUrl + 'users/:Username', {
+    const Username = localStorage.getItem('Username');
+    return this.http.delete(apiUrl + `users/${Username}`, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -168,9 +175,10 @@ export class UserRegistrationService {
   }
 
   //Delete a movie from the favorite movies
-  deleteFavMovies(): Observable<any> {
+  deleteFavMovies(id: string): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.delete(apiUrl + 'users/:Username/Movies/:MovieID', {
+    const Username = localStorage.getItem('Username');
+    return this.http.delete(apiUrl + `users/${Username}/movies/${id}`, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,
@@ -182,9 +190,10 @@ export class UserRegistrationService {
     );
   }
 
-  //Non-typed response extraction
-  private extractResponseData(data: any | Object): any {
-    return data || {};
+  //Non - typed response extraction
+  private extractResponseData(res: any): any {
+    const body = res;
+    return res || {};
   }
 
   private handleError(error: HttpErrorResponse): any {
@@ -193,7 +202,7 @@ export class UserRegistrationService {
     } else {
       console.error(
         `Error Status code ${error.status}, ` +
-        `Error body is: ${error.error}`
+        `Error body is: ${error}`
       );
     }
     return throwError(
