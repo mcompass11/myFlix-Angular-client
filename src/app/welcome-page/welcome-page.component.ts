@@ -3,6 +3,7 @@ import { UserRegistrationFormComponent } from '../user-registration-form/user-re
 import { UserLoginFormComponent } from '../user-login-form/user-login-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
+
 @Component({
   selector: 'app-welcome-page',
   templateUrl: './welcome-page.component.html',
