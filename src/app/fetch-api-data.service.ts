@@ -110,38 +110,6 @@ export class FetchApiDataService {
     );
   }
 
-  //Get favorite movies for user
-  getFavMovies(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const Username = localStorage.getItem('Username');
-    return this.http.get(apiUrl + `users/${Username}`, {
-      headers: new HttpHeaders(
-        {
-          Authorization: 'Bearer ' + token,
-        }
-      )
-    }).pipe(
-      map(this.extractResponseData),
-      catchError(this.handleError)
-    );
-  }
-
-  //Add a movie to favorite movies
-  addFavMovies(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const Username = localStorage.getItem('Username');
-    return this.http.post(apiUrl + `users/${Username}/movies/:MovieID`, {
-      headers: new HttpHeaders(
-        {
-          Authorization: 'Bearer ' + token,
-        }
-      )
-    }).pipe(
-      map(this.extractResponseData),
-      catchError(this.handleError)
-    );
-  }
-
   //Edit user
   editUser(userData: object): Observable<any> {
     const token = localStorage.getItem('token');
@@ -163,6 +131,38 @@ export class FetchApiDataService {
     const token = localStorage.getItem('token');
     const Username = localStorage.getItem('Username');
     return this.http.delete(apiUrl + `users/${Username}`, {
+      headers: new HttpHeaders(
+        {
+          Authorization: 'Bearer ' + token,
+        }
+      )
+    }).pipe(
+      map(this.extractResponseData),
+      catchError(this.handleError)
+    );
+  }
+
+  //Get favorite movies for user
+  getFavMovies(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const Username = localStorage.getItem('Username');
+    return this.http.get(apiUrl + `users/${Username}`, {
+      headers: new HttpHeaders(
+        {
+          Authorization: 'Bearer ' + token,
+        }
+      )
+    }).pipe(
+      map(this.extractResponseData),
+      catchError(this.handleError)
+    );
+  }
+
+  //Add a movie to favorite movies
+  addFavMovies(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const Username = localStorage.getItem('Username');
+    return this.http.post(apiUrl + `users/${Username}/movies/:MovieID`, {
       headers: new HttpHeaders(
         {
           Authorization: 'Bearer ' + token,

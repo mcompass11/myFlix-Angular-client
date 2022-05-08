@@ -13,12 +13,24 @@ export class ProfilePageComponent implements OnInit {
   userString: any = localStorage.getItem('user');
   user: any = JSON.parse(this.userString);
 
+  //user: any = {};
+  // movies: any[] = [];
+  // Username: any = localStorage.getItem('user');
+
   @Input() userData = {
+    _id: this.user._id,
     Username: this.user.Username,
     Email: this.user.Email,
     Birthday: this.user.Birthday,
-    Password: '',
+    Password: this.user.Password,
   };
+
+  // @Input() newData = {
+  //   Username: this.user.Username,
+  //   Password: this.user.Password,
+  //   Email: this.user.Email,
+  //   Birthday: this.user.Birthday
+  // }
 
   constructor(
     public dialog: MatDialog, public fetchApidata: FetchApiDataService,
@@ -31,20 +43,21 @@ export class ProfilePageComponent implements OnInit {
   }
 
   getUser(): void {
-    const UserID = localStorage.getItem('UserID');
-    if (UserID) {
-      this.fetchApidata.getUser().subscribe((res: any) => {
-        this.user = res;
+    const Username = localStorage.getItem('Username');
+    if (Username) {
+      this.fetchApidata.getUser().subscribe((response: any) => {
+        this.user = response;
         console.log(this.user);
         return this.user;
       });
     }
   }
 
-  updateUser(): void {
-    console.log(this.userData);
-    this.fetchApidata.editUser(this.userData).subscribe((resp) => {
-      localStorage.setItem('user', JSON.stringify(resp));
+  editUser(): void {
+    console.log(this.userData)
+    this.fetchApidata.editUser(this.userData).subscribe((response) => {
+      localStorage.setItem('user.Username', (response));
+      console.log(response);
       this.snackBar.open('Profile update successful!', 'OK', {
         duration: 2000,
       });

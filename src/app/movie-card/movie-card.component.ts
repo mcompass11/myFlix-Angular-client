@@ -15,6 +15,7 @@ export class MovieCardComponent {
   movies: any[] = [];
   genres: any[] = [];
   favoriteMovies: any[] = [];
+
   constructor(
     public fetchApiData: FetchApiDataService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
 
@@ -22,6 +23,7 @@ export class MovieCardComponent {
     this.getMovies();
     // this.getGenres();
     // this.getFavoriteMovies();
+    //this.getCurrentUser();
   }
 
   getMovies(): void {

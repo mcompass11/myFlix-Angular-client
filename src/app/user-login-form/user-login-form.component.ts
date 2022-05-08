@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-login-form.component.scss']
 })
 export class UserLoginFormComponent implements OnInit {
-  @Input() userData = { Username: '', Password: '' };
+  @Input() userCreds = { Username: '', Password: '' };
 
   constructor(
     public fetchApiData: FetchApiDataService,
@@ -22,12 +22,14 @@ export class UserLoginFormComponent implements OnInit {
   }
   //This function is responsible for sending the form inputs to the backend
   loginUser(): void {
-    this.fetchApiData.userLogin(this.userData).subscribe((response) => {
+    this.fetchApiData.userLogin(this.userCreds).subscribe((response) => {
       //Logic for a successful user login
       this.dialogRef.close();
       console.log(response);
-      localStorage.setItem('user', response.user.Username);
+      localStorage.setItem('Username', response.user.Username);
       localStorage.setItem('token', response.token);
+      localStorage.setItem('user', JSON.stringify(response.user));
+      console.log(response.user)
       this.snackBar.open('user login successful', 'OK', {
         duration: 2000
       });
