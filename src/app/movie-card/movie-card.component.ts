@@ -22,7 +22,7 @@ export class MovieCardComponent {
   ngOnInit(): void {
     this.getMovies();
     // this.getGenres();
-    // this.getFavoriteMovies();
+    //this.addFavMovies();
     //this.getCurrentUser();
   }
 
@@ -65,4 +65,12 @@ export class MovieCardComponent {
     });
   }
 
+  addFavMovies(MovieID: string): void {
+    this.fetchApiData.addFavMovies(MovieID).subscribe((response: any) => {
+      this.snackBar.open(`${MovieID} has been added!`, 'OK', {
+        duration: 2000,
+      });
+      this.ngOnInit();
+    });
+  }
 }

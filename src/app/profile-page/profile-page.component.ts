@@ -4,6 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
+import { DirectorCardComponent } from '../director-card/director-card.component';
+import { GenreCardComponent } from '../genre-card/genre-card.component';
+import { SynopsisCardComponent } from '../synopsis-card/synopsis-card.component';
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
@@ -14,8 +18,10 @@ export class ProfilePageComponent implements OnInit {
   user: any = JSON.parse(this.userString);
 
   //user: any = {};
-  // movies: any[] = [];
-  // Username: any = localStorage.getItem('user');
+  movies: any[] = [];
+  FavoriteMovies: any[] = [];
+  displayElement: boolean = false;
+  genres: any[] = [];
 
   @Input() userData = {
     _id: this.user._id,
@@ -40,6 +46,8 @@ export class ProfilePageComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     console.log(this.userData);
+    this.getFavMovies();
+    //this.getGenres();
   }
 
   getUser(): void {
@@ -70,13 +78,66 @@ export class ProfilePageComponent implements OnInit {
   deleteUser(): void {
     if (confirm('Are you sure you want to delete this profile?')) {
       this.fetchApidata.deleteUser().subscribe(() => {
-        this.snackBar.open(`${this.user.Username} has been deleted!`, 'OK', {
-          duration: 2000,
+        this.snackBar.open(`User has been deleted!`, 'OK', {
+          duration: 4000,
         });
         localStorage.clear();
       });
       this.router.navigate(['welcome']);
     }
+  }
+
+  openDirectorDialog(name: string, bio: string, birth: string): void {
+    this.dialog.open(DirectorCardComponent, {
+      data: {
+        Name: name,
+        Bio: bio,
+        Birth: birth,
+      },
+      width: '480px'
+    });
+  }
+
+  openGenreDialog(name: string, description: string): void {
+    this.dialog.open(GenreCardComponent, {
+      data: {
+        Name: name,
+        Description: description,
+      },
+      width: '480px'
+    });
+  }
+
+  openSynopsisDialog(title: string, description: string): void {
+    this.dialog.open(SynopsisCardComponent, {
+      data: {
+        Title: title,
+        Description: description,
+      },
+      width: '480px'
+    });
+  }
+
+  getFavMovies(): void {
+    this.fetchApidata.getAllMovies().subscribe((response: any) => {
+      this.FavoriteMovies = response.filter((movie: any) => {
+        return this.user.FavoriteMovies.includes(movie._id)
+      });
+      console.log(this.FavoriteMovies);
+      return this.FavoriteMovies;
+    })
+  }
+
+  deleteFavMovie(MovieID: string): void {
+    this.fetchApidata.deleteFavMovies(MovieID).subscribe((response: any) => {
+      console.log(response);
+      this.snackBar.open(`Movie has been deleted from favs.`, 'OK', {
+        duration: 2000,
+      });
+      window.location.reload();
+      this.ngOnInit();
+    });
+    return this.getFavMovies();
   }
 
 }

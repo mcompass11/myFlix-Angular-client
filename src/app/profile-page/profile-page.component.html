@@ -7,6 +7,7 @@
     </mat-card-header>
 
     <form class="user-edit-form">
+      <h3>Username: {{this.user.Username}}</h3>
       <mat-form-field>
         <input matInput [(ngModel)]="userData.Username" placeholder="Username" value={{userData.Username}} type="text"
           name="Username" required>
@@ -15,10 +16,12 @@
         <input matInput [(ngModel)]="userData.Password" placeholder="Password" value={{userData.Password}}
           type="password" name="Password" required>
       </mat-form-field>
+      <h3>Email: {{user.Email}}</h3>
       <mat-form-field>
         <input matInput [(ngModel)]="userData.Email" placeholder="Email" value={{userData.Email}} type="email"
           name="Email" required>
       </mat-form-field>
+      <h3>Birthday: {{user.Birthday}}</h3>
       <mat-form-field>
         <input matInput [(ngModel)]="userData.Birthday" value={{userData.Birthday}} type="date" placeholder="Birthday"
           name="Birthday">
@@ -33,4 +36,28 @@
       </button>
     </mat-card-actions>
   </mat-card>
+  <div>
+    <h2>My Fav Movies</h2>
+    <p *ngIf="(FavoriteMovies.length === 0)">There are no movies saved to your list.</p>
+    <div>
+      <mat-card *ngFor="let Fav of FavoriteMovies; let i = index">
+        <mat-card-header>
+          <mat-card-title>{{ Fav.Title }}</mat-card-title>
+          <mat-card-subtitle>Directed by: {{ Fav.Director.Name }}</mat-card-subtitle>
+        </mat-card-header>
+        <div>
+          <img src="{{ Fav.ImagePath }}" alt="{{ Fav.Title }}"
+            style="border: 1px solid black; height:320px!important" />
+        </div>
+        <mat-card-actions>
+          <button mat-button (click)="openGenreDialog(Fav.Genre.Name, Fav.Genre.Description)"
+            color="primary">Genre</button>
+          <button mat-button (click)="openDirectorDialog(Fav.Director.Name, Fav.Director.Bio, Fav.Director.Birth)"
+            color="primary">Director</button>
+          <button mat-button (click)="openSynopsisDialog(Fav.Title, Fav.Description)" color="primary">Synopsis</button>
+          <button mat-button (click)="deleteFavMovie(Fav._id)">Remove</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
 </div>
