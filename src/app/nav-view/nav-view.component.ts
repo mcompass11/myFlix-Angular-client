@@ -20,6 +20,9 @@ export class NavViewComponent implements OnInit {
     this.router.navigate(['profile']);
   }
 
+  /**
+   * function for user log out and clear localStorage
+   */
   logOut(): void {
     localStorage.clear();
     this.snackBar.open('You are now logged out.', 'OK', {

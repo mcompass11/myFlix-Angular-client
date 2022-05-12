@@ -17,7 +17,6 @@ export class ProfilePageComponent implements OnInit {
   userString: any = localStorage.getItem('user');
   user: any = JSON.parse(this.userString);
 
-  //user: any = {};
   movies: any[] = [];
   FavoriteMovies: any[] = [];
   displayElement: boolean = false;
@@ -31,13 +30,6 @@ export class ProfilePageComponent implements OnInit {
     Password: this.user.Password,
   };
 
-  // @Input() newData = {
-  //   Username: this.user.Username,
-  //   Password: this.user.Password,
-  //   Email: this.user.Email,
-  //   Birthday: this.user.Birthday
-  // }
-
   constructor(
     public dialog: MatDialog, public fetchApidata: FetchApiDataService,
     public snackBar: MatSnackBar, public router: Router
@@ -47,9 +39,14 @@ export class ProfilePageComponent implements OnInit {
     this.getUser();
     console.log(this.userData);
     this.getFavMovies();
-    //this.getGenres();
+
   }
 
+  /**
+   * gets user info
+   * @function getUser
+   * @returns user info
+   */
   getUser(): void {
     const Username = localStorage.getItem('Username');
     if (Username) {
@@ -61,6 +58,11 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
+  /**
+   * allow edit of user profile
+   * @function editUser
+   * @returns updated user info in JSON format and storage in localStorage
+   */
   editUser(): void {
     console.log(this.userData)
     this.fetchApidata.editUser(this.userData).subscribe((response) => {
@@ -75,6 +77,11 @@ export class ProfilePageComponent implements OnInit {
     });
   }
 
+  /**
+   * deletes user
+   * @function deleteUser
+   * @returns delete status and routes to welcome page
+   */
   deleteUser(): void {
     if (confirm('Are you sure you want to delete this profile?')) {
       this.fetchApidata.deleteUser().subscribe(() => {

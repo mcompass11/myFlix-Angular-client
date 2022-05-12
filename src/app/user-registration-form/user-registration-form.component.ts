@@ -1,7 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+
+//imports closing of dialog
 import { MatDialogRef } from '@angular/material/dialog';
+
+//brings in API calls
 import { FetchApiDataService } from '../fetch-api-data.service';
+
+//displays notifications to user
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+//for routing
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,6 +18,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-registration-form.component.scss']
 })
 export class UserRegistrationFormComponent implements OnInit {
+  /**
+   * input values stored in userData
+   */
   @Input() userData = { Username: '', Password: '', Email: '', Birthday: '' };
 
   constructor(
@@ -21,6 +32,11 @@ export class UserRegistrationFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * sends form inputs to backend for new user
+   * @function registerUser
+   * @return new user data in JSON format
+   */
   registerUser(): void {
     this.fetchApiData.userRegistration(this.userData).subscribe((response) => {
       let newData = (({ Username, Password }) => ({ Username, Password }))(this.userData);
