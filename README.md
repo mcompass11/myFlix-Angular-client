@@ -1,6 +1,20 @@
 # MyFlixAngularClient
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.4.
+This project is re-creation of my orginal myFlix app. This time built using Angular/Typescript instead of React.
+
+## Demo of App
+
+Visit https://mcompass11.github.io/myFlix-Angular-client/ to try a live demo!
+
+## Features
+
+<ul>
+  <li>User is able to register an account and login</li>
+  <li>User is able to see list of movies</li>
+  <li>User is able to select movie, see summary, get details of director/genre, as well as add movie to favorites</li>
+  <li>User is able to edit info of profile, as well see their favorites and remove desired favorite</li>
+  <li>User is able to logout and delete profile</li>
+</ul>
 
 ## Development server
 
