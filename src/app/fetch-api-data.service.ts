@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 //Declaring the api url that will provide data for the client app
 const apiUrl = 'https://yourfavoritereels.herokuapp.com/';
@@ -27,7 +27,7 @@ export class FetchApiDataService {
    */
   userRegistration(userDetails: any): Observable<any> {
     console.log(userDetails);
-    return this.http.post(apiUrl + 'users/', userDetails).pipe(
+    return this.http.post(apiUrl + 'users', userDetails).pipe(
       catchError(this.handleError)
     );
   }
