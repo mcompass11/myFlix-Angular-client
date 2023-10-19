@@ -89,12 +89,13 @@ export class MovieCardComponent {
   /**
    * lets user add movie to favorites
    * @function addFavMovies
-   * @param MovieID 
+   * @param MovieID
+   * @param title 
    * @returns movie object array in JSON format
    */
-  addFavMovies(MovieID: string): void {
+  addFavMovies(MovieID: string, title: string): void {
     this.fetchApiData.addFavMovies(MovieID).subscribe((response: any) => {
-      this.snackBar.open(`${MovieID} has been added!`, 'OK', {
+      this.snackBar.open(`${title} has been added!`, 'OK', {
         duration: 2000,
       });
       this.ngOnInit();
